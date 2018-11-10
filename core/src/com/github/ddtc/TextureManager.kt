@@ -9,6 +9,7 @@ class TextureManager {
         blockDark.dispose()
         playerWalk.dispose()
         playerWalkCandle.dispose()
+        sheepWalk.dispose()
         mapLayout.dispose()
     }
 
@@ -17,5 +18,6 @@ class TextureManager {
     val blockDark: Texture = Texture("tile0-dark.png")
     val playerWalk: Texture = Texture("Player-walk.png")
     val playerWalkCandle: Texture = Texture("Player-walk-candle.png")
-    val mapLayout: Texture = Texture("map0.png") // replace me with a map 40x30!
+    val sheepWalk: Texture = Texture("Enemy0-walk.png")
+    val mapLayout: Texture = Texture("map0.png") // must be 40x30! (view-port/ tile-size)
 }

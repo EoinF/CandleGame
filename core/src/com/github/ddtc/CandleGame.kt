@@ -14,6 +14,7 @@ class CandleGame : ApplicationAdapter() {
     private lateinit var batch: SpriteBatch
     private lateinit var map: Map
     private lateinit var player: Player
+    private lateinit var sheep: Sheep
     private lateinit var textureManager: TextureManager
 
     private lateinit var world: World
@@ -39,6 +40,8 @@ class CandleGame : ApplicationAdapter() {
         val defaultPosition = Vector2(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
 
         player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, defaultPosition, world)
+
+        sheep = Sheep(textureManager.sheepWalk,Vector2(Gdx.graphics.width / 3f, Gdx.graphics.height / 3f), world)
 
         map = Map(textureManager, world)
 
@@ -69,15 +72,17 @@ class CandleGame : ApplicationAdapter() {
 
         world.step(Gdx.graphics.deltaTime, 6, 2)
         player.update()
+        sheep.update()
 
         debugMatrix = batch.projectionMatrix.cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0f)
 
         batch.begin()
         map.draw(batch, player.isHoldingCandle)
         player.draw(batch)
+        sheep.draw(batch)
         batch.end()
 
-        debugRenderer.render(world, debugMatrix)
+        //debugRenderer.render(world, debugMatrix)
     }
 
     override fun dispose() {
