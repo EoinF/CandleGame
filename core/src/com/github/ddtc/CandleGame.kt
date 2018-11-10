@@ -42,7 +42,7 @@ class CandleGame : ApplicationAdapter() {
     private var debugMatrix: Matrix4? = null
 
     override fun render() {
-        Gdx.gl.glClearColor(1f, 0f, 0f, 1f)
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         world.step(Gdx.graphics.deltaTime, 6, 2)

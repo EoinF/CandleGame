@@ -27,10 +27,11 @@ class Map(
         val textureData = mapTexture.getTextureData()
         textureData.prepare()
         val layout = textureData.consumePixmap()
-        for(x in 1..layout.getHeight()) {
-            for(y in 1..layout.getWidth()) {
-                val b = layout.getPixel(x,y)
-                if(b > 0) {
+        for(x in 0..layout.getWidth()) {
+            for(y in 0..layout.getHeight()) {
+                val b = layout.getPixel(x,layout.getHeight()-y)
+                val blockMarker = 255
+                if(b == blockMarker) {
                     blocks.add(Block(blockTexture, Vector2(x*32f, y*32f), world))
                 }
             }
