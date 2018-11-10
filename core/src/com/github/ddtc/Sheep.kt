@@ -89,7 +89,7 @@ class Sheep (
 
     fun update() {
         // jump randomly
-        if (Random().nextDouble() > 0.95 && body.linearVelocity.y < 3f) {
+        if (Random().nextDouble() > 0.95 && body.linearVelocity.y < 3f && position.y < Gdx.graphics.height-32) {
             body.applyForceToCenter(Vector2(0f, 30f), true)
         }
 
