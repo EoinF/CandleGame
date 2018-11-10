@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World
 
 class CandleGame : ApplicationAdapter() {
     private lateinit var batch: SpriteBatch
+    private lateinit var map: Map
     private lateinit var player: Player
     private lateinit var textureManager: TextureManager
 
@@ -25,6 +26,8 @@ class CandleGame : ApplicationAdapter() {
         val defaultPosition = Vector2(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
 
         player = Player(Sprite(textureManager.player), defaultPosition, world)
+
+        map = Map(world)
     }
 
     override fun render() {
