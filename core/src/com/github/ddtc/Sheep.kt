@@ -37,6 +37,8 @@ class Sheep (
         val fixtureDef = FixtureDef()
         fixtureDef.shape = shape
         fixtureDef.density = 1f
+        fixtureDef.filter.categoryBits = CandleGame.SHEEP_ENTITY
+
         body.createFixture(fixtureDef)
 
         shape.dispose()

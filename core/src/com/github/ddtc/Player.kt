@@ -23,7 +23,8 @@ class Player(
 ) {
     var isFacingRight = true
     val body: Body
-    var isHoldingCandle = false
+    var isHoldingCandle = true
+    var isAlive = true
     var walkTime: Float
     var walkingDarkAnimation: Animation<TextureRegion>
     var walkingLightAnimation: Animation<TextureRegion>
@@ -121,6 +122,7 @@ class Player(
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             isHoldingCandle = !isHoldingCandle
+            isAlive = true
         }
 
         position = Vector2((body.position.x * PIXELS_TO_METERS) - playerWidth / 2,
