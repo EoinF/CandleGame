@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
+import com.badlogic.gdx.physics.box2d.*
 
 
 class CandleGame : ApplicationAdapter() {
@@ -23,6 +22,11 @@ class CandleGame : ApplicationAdapter() {
 
     companion object {
         const val PIXELS_TO_METERS = 100f
+        const val PHYSICS_ENTITY: Short = 0x1    // 0001
+        const val WORLD_ENTITY: Short = 0x2 // 0010 or 0x2 in hex
+        const val PLAYER_ENTITY: Short = 0x4
+        const val PLAYER_FEET_ENTITY: Short = 0x8
+        var numPlayerContacts = 0
     }
 
     override fun create() {
@@ -37,6 +41,24 @@ class CandleGame : ApplicationAdapter() {
         player = Player(Sprite(textureManager.player), defaultPosition, world)
 
         map = Map(textureManager.block, textureManager.mapLayout, world)
+
+        world.setContactListener(object : ContactListener {
+            override fun beginContact(contact: Contact) {
+                if (isFeetColliding(contact)) {
+                    numPlayerContacts++
+                }
+            }
+
+            override fun endContact(contact: Contact) {
+                if (isFeetColliding(contact)) {
+                    numPlayerContacts--
+                }
+            }
+
+            override fun preSolve(contact: Contact, oldManifold: Manifold) {}
+
+            override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
+        })
     }
 
     private var debugMatrix: Matrix4? = null
@@ -62,4 +84,5 @@ class CandleGame : ApplicationAdapter() {
         batch.dispose()
         textureManager.dispose()
     }
+
 }
