@@ -36,7 +36,7 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(Sprite(textureManager.player), defaultPosition, world)
 
-        map = Map(world)
+        map = Map(textureManager.block, world)
     }
 
     private var debugMatrix: Matrix4? = null
@@ -51,6 +51,7 @@ class CandleGame : ApplicationAdapter() {
         debugMatrix = batch.projectionMatrix.cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0f)
 
         batch.begin()
+        map.draw(batch)
         player.draw(batch)
         batch.end()
 
