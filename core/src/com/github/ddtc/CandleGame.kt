@@ -2,11 +2,16 @@ package com.github.ddtc;
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Matrix4
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+
+
 
 
 class CandleGame : ApplicationAdapter() {
@@ -30,8 +35,12 @@ class CandleGame : ApplicationAdapter() {
         var timeToSpawn = 0f
     }
 
+    private lateinit var font: BitmapFont
+
     override fun create() {
         batch = SpriteBatch()
+        font = BitmapFont()
+        font.color = Color.GOLDENROD
 
         textureManager = TextureManager()
         world = World(Vector2(0f, -9.8f), true)
@@ -78,6 +87,10 @@ class CandleGame : ApplicationAdapter() {
     private var debugMatrix: Matrix4? = null
 
     override fun render() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit()
+        }
+
         timeToSpawn += Gdx.graphics.deltaTime
 
         if (timeToSpawn > 4) {
@@ -113,6 +126,7 @@ class CandleGame : ApplicationAdapter() {
         for (sheep in sheeps) {
             sheep.draw(batch, player.isHoldingCandle)
         }
+        font.draw(batch, "Sheep: " + sheeps.size, 50f, 100f)
         batch.end()
 
         //debugRenderer.render(world, debugMatrix)
