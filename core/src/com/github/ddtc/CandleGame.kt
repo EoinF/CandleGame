@@ -90,9 +90,9 @@ class CandleGame : ApplicationAdapter() {
 
         if (player.isAlive) {
             if (player.isHoldingCandle) {
-                Gdx.gl.glClearColor(0.25f, 0.25f, 0.8f, 1f)
+                Gdx.gl.glClearColor(58/255f, 79/255f, 98/255f, 1f) // dream background
             } else {
-                Gdx.gl.glClearColor(0.15f, 0.2f, 0.15f, 1f)
+                Gdx.gl.glClearColor(0.15f, 0.2f, 0.15f, 1f) // nightmare background
             }
         } else {
             Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
