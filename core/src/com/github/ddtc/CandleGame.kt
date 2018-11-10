@@ -36,7 +36,7 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(Sprite(textureManager.player), defaultPosition, world)
 
-        map = Map(textureManager.block, world)
+        map = Map(textureManager.block, textureManager.mapLayout, world)
     }
 
     private var debugMatrix: Matrix4? = null

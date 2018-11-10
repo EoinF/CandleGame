@@ -10,4 +10,5 @@ class TextureManager {
 
     val player: Texture = Texture("Player.png")
     val block: Texture = Texture("block.png")
+    val mapLayout: Texture = Texture("Player.png") // replace me with a map 40x30!
 }
