@@ -18,6 +18,7 @@ class Player(
         world: World
 ) {
     val body: Body
+    var isHoldingCandle = false
 
     private fun origin() = Vector2(sprite.x + sprite.originX, sprite.y + sprite.originY)
 
@@ -59,7 +60,8 @@ class Player(
     }
 
     fun update() {
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && numPlayerContacts > 0) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && numPlayerContacts > 0
+                && body.linearVelocity.y < 3f) {
             body.applyForceToCenter(Vector2(0f, 60f), true)
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -70,6 +72,9 @@ class Player(
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             body.setLinearVelocity(body.linearVelocity.x + 0.2f, body.linearVelocity.y)
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            isHoldingCandle = !isHoldingCandle
         }
 
         sprite.setPosition((body.position.x * PIXELS_TO_METERS) - sprite.originX,

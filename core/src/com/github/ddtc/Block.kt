@@ -8,7 +8,8 @@ import com.badlogic.gdx.physics.box2d.*
 import com.github.ddtc.CandleGame.Companion.PIXELS_TO_METERS
 
 class Block(
-        private val texture: Texture,
+        private val lightTexture: Texture,
+        private val darkTexture: Texture,
         position: Vector2,
         world: World
 ) {
@@ -20,7 +21,7 @@ class Block(
     val origin = Vector2(position.x + blockWidth/2, position.y+blockHeight/2)
 
     init {
-        sprite = Sprite(texture)
+        sprite = Sprite(lightTexture)
         sprite.setPosition(position.x, position.y)
         sprite.setOriginCenter()
 
@@ -39,7 +40,12 @@ class Block(
         box.dispose()
     }
 
-    fun draw(batch: Batch) {
+    fun draw(batch: Batch, isBright: Boolean) {
+        if (isBright) {
+            sprite.texture = lightTexture
+        } else {
+            sprite.texture = darkTexture
+        }
         sprite.draw(batch)
     }
 }

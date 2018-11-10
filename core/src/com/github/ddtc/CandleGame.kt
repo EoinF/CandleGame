@@ -40,7 +40,7 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(Sprite(textureManager.player), defaultPosition, world)
 
-        map = Map(textureManager.block, textureManager.mapLayout, world)
+        map = Map(textureManager, world)
 
         world.setContactListener(object : ContactListener {
             override fun beginContact(contact: Contact) {
@@ -73,7 +73,7 @@ class CandleGame : ApplicationAdapter() {
         debugMatrix = batch.projectionMatrix.cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0f)
 
         batch.begin()
-        map.draw(batch)
+        map.draw(batch, player.isHoldingCandle)
         player.draw(batch)
         batch.end()
 
