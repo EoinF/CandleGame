@@ -14,7 +14,7 @@ class CandleGame : ApplicationAdapter() {
     private lateinit var batch: SpriteBatch
     private lateinit var map: Map
     private lateinit var player: Player
-    private lateinit var sheep: Sheep
+    private var sheeps: ArrayList<Sheep> = ArrayList()
     private lateinit var textureManager: TextureManager
 
     private lateinit var world: World
@@ -41,7 +41,11 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, defaultPosition, world)
 
-        sheep = Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle, Vector2(Gdx.graphics.width / 3f, Gdx.graphics.height / 3f), world)
+        val sheepCount = 4
+        val sheepGap = Gdx.graphics.width/(sheepCount+1)
+        for (x in 1..sheepCount) {
+            sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle, Vector2((sheepGap*x).toFloat(), Gdx.graphics.height / 2f), world))
+        }
 
         map = Map(textureManager, world)
 
@@ -72,14 +76,18 @@ class CandleGame : ApplicationAdapter() {
 
         world.step(Gdx.graphics.deltaTime, 6, 2)
         player.update()
-        sheep.update()
+        for(sheep in sheeps) {
+            sheep.update()
+        }
 
         debugMatrix = batch.projectionMatrix.cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0f)
 
         batch.begin()
         map.draw(batch, player.isHoldingCandle)
         player.draw(batch)
-        sheep.draw(batch, player.isHoldingCandle)
+        for(sheep in sheeps) {
+            sheep.draw(batch, player.isHoldingCandle)
+        }
         batch.end()
 
         debugRenderer.render(world, debugMatrix)
