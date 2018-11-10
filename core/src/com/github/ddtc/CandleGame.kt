@@ -46,15 +46,13 @@ class CandleGame : ApplicationAdapter() {
         world = World(Vector2(0f, -9.8f), true)
         debugRenderer = Box2DDebugRenderer()
 
-        val defaultPosition = Vector2(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
-
-        player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, defaultPosition, world)
-
         // starting sheep
         sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle,
                 Vector2(Gdx.graphics.width/ 2f, Gdx.graphics.height.toFloat()), world))
 
         map = Map(textureManager, world)
+
+        player = map.player
 
         world.setContactListener(object : ContactListener {
             override fun beginContact(contact: Contact) {

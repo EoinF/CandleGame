@@ -9,9 +9,12 @@ class Map(
         val world: World
 ) {
     val blocks: ArrayList<Block> = ArrayList()
+    lateinit var player: Player
+    val blockMarker = 255
+    val playerMarker = -16776961 // red
 
     init {
-        loadBlocks()
+        loadLayout()
     }
 
     fun draw(batch: Batch, isBright: Boolean) {
@@ -20,16 +23,20 @@ class Map(
         }
     }
 
-    fun loadBlocks() {
+    fun loadLayout() {
         val textureData = textureManager.mapLayout.getTextureData()
         textureData.prepare()
         val layout = textureData.consumePixmap()
         for(x in 0..layout.getWidth()) {
             for(y in 0..layout.getHeight()) {
-                val b = layout.getPixel(x,layout.getHeight()-y-1) // why -1?!
-                val blockMarker = 255
-                if(b == blockMarker) {
-                    blocks.add(Block(textureManager.blockLight, textureManager.blockDark, Vector2(x*32f, y*32f), world))
+                val element = layout.getPixel(x,layout.getHeight()-y)
+
+                if(element == blockMarker) {
+                    blocks.add(Block(textureManager.blockLight, textureManager.blockDark, Vector2(x*32f, (y-1)*32f), world))
+                }
+
+                if(element == playerMarker) {
+                    player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, Vector2(x*32f, (y-1)*32f), world)
                 }
             }
         }
