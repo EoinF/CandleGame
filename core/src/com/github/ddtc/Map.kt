@@ -26,7 +26,7 @@ class Map(
         val layout = textureData.consumePixmap()
         for(x in 0..layout.getWidth()) {
             for(y in 0..layout.getHeight()) {
-                val b = layout.getPixel(x,layout.getHeight()-y)
+                val b = layout.getPixel(x,layout.getHeight()-y-1) // why -1?!
                 val blockMarker = 255
                 if(b == blockMarker) {
                     blocks.add(Block(textureManager.blockLight, textureManager.blockDark, Vector2(x*32f, y*32f), world))

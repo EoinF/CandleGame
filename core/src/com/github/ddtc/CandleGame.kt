@@ -38,7 +38,7 @@ class CandleGame : ApplicationAdapter() {
 
         val defaultPosition = Vector2(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f)
 
-        player = Player(Sprite(textureManager.player), defaultPosition, world)
+        player = Player(textureManager.playerWalk, defaultPosition, world)
 
         map = Map(textureManager, world)
 
