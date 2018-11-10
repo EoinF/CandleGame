@@ -41,7 +41,7 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, defaultPosition, world)
 
-        sheep = Sheep(textureManager.sheepWalk,Vector2(Gdx.graphics.width / 3f, Gdx.graphics.height / 3f), world)
+        sheep = Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle, Vector2(Gdx.graphics.width / 3f, Gdx.graphics.height / 3f), world)
 
         map = Map(textureManager, world)
 
@@ -79,10 +79,10 @@ class CandleGame : ApplicationAdapter() {
         batch.begin()
         map.draw(batch, player.isHoldingCandle)
         player.draw(batch)
-        sheep.draw(batch)
+        sheep.draw(batch, player.isHoldingCandle)
         batch.end()
 
-        //debugRenderer.render(world, debugMatrix)
+        debugRenderer.render(world, debugMatrix)
     }
 
     override fun dispose() {

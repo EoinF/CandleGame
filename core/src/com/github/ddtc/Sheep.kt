@@ -1,18 +1,19 @@
 package com.github.ddtc
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.utils.Array
 import com.github.ddtc.CandleGame.Companion.PIXELS_TO_METERS
 import java.util.*
 
 class Sheep (
-        private val walkSheet: Texture,
+        private val walkingLight: Texture,
+        private val walkingDark: Texture,
         var position: Vector2,
         world: World
 ) {
@@ -20,7 +21,8 @@ class Sheep (
     val height = 48
     val width = 48
     var walkTime: Float
-    var walkAnimation: Animation<TextureRegion>
+    var walkingLightAnimation: Animation<TextureRegion>
+    var walkingDarkAnimation: Animation<TextureRegion>
     var direction = 1
 
     init {
@@ -39,15 +41,19 @@ class Sheep (
 
         shape.dispose()
 
-        walkTime = 0f;
+        walkTime = 0f
+        walkingLightAnimation = createAnimation(walkingLight)
+        walkingDarkAnimation = createAnimation(walkingDark)
+    }
+    private fun createAnimation(animationTexture: Texture): Animation<TextureRegion> {
         val FRAME_COLS = 2
         val FRAME_ROWS = 2
 
-        val tmp = TextureRegion.split(walkSheet,
-                walkSheet.width / FRAME_COLS,
-                walkSheet.height / FRAME_ROWS)
+        val tmp = TextureRegion.split(animationTexture,
+                animationTexture.width / FRAME_COLS,
+                animationTexture.height / FRAME_ROWS)
 
-        val walkFrames = com.badlogic.gdx.utils.Array<TextureRegion>(FRAME_COLS * FRAME_ROWS)
+        val walkFrames = Array<TextureRegion>(FRAME_COLS * FRAME_ROWS)
         var index = 0
         for (i in 0 until FRAME_ROWS) {
             for (j in 0 until FRAME_COLS) {
@@ -55,14 +61,27 @@ class Sheep (
             }
         }
 
-        walkAnimation = Animation<TextureRegion>(0.1f, walkFrames)
+        return Animation(0.1f, walkFrames)
     }
 
-    fun draw(batch: Batch) {
+    fun draw(batch: Batch, isBright: Boolean) {
         walkTime += Gdx.graphics.deltaTime // Accumulate elapsed animation time
 
+        val isFacingRight = body.linearVelocity.x <= 0
+
         // Get current frame of animation for the current stateTime
-        val currentFrame = walkAnimation.getKeyFrame(walkTime, true)
+        val walkingAnimation = if (isBright) {
+            walkingLightAnimation
+        } else {
+            walkingDarkAnimation
+        }
+        val currentFrame = walkingAnimation.getKeyFrame(walkTime, true)
+        if (currentFrame.isFlipX) {
+            currentFrame.flip(isFacingRight, false)
+        } else {
+            currentFrame.flip(!isFacingRight, false)
+        }
+
         batch.draw(currentFrame, position.x, position.y)
     }
 
