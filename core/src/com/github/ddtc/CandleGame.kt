@@ -41,11 +41,9 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, defaultPosition, world)
 
-        val sheepCount = 2
-        val sheepGap = Gdx.graphics.width/(sheepCount+1)
-        for (x in 1..sheepCount) {
-            sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle, Vector2((sheepGap*x).toFloat(), Gdx.graphics.height / 2f), world))
-        }
+        // starting sheep
+        sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle,
+                Vector2(Gdx.graphics.width/ 2f, Gdx.graphics.height.toFloat()), world))
 
         map = Map(textureManager, world)
 
@@ -90,7 +88,7 @@ class CandleGame : ApplicationAdapter() {
 
         if (player.isAlive) {
             if (player.isHoldingCandle) {
-                Gdx.gl.glClearColor(58/255f, 79/255f, 98/255f, 1f) // dream background
+                Gdx.gl.glClearColor(155/255f, 133/255f, 98/255f, 1f) // dream background
             } else {
                 Gdx.gl.glClearColor(0.15f, 0.2f, 0.15f, 1f) // nightmare background
             }
