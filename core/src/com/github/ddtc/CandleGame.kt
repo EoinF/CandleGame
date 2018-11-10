@@ -27,6 +27,7 @@ class CandleGame : ApplicationAdapter() {
         const val PLAYER_ENTITY: Short = 0x4
         const val PLAYER_FEET_ENTITY: Short = 0x8
         var numPlayerContacts = 0
+        var timeToSpawn = 0f
     }
 
     override fun create() {
@@ -40,7 +41,7 @@ class CandleGame : ApplicationAdapter() {
 
         player = Player(textureManager.playerWalk, textureManager.playerWalkCandle, defaultPosition, world)
 
-        val sheepCount = 4
+        val sheepCount = 2
         val sheepGap = Gdx.graphics.width/(sheepCount+1)
         for (x in 1..sheepCount) {
             sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle, Vector2((sheepGap*x).toFloat(), Gdx.graphics.height / 2f), world))
@@ -78,6 +79,15 @@ class CandleGame : ApplicationAdapter() {
     private var debugMatrix: Matrix4? = null
 
     override fun render() {
+        timeToSpawn += Gdx.graphics.deltaTime
+
+        println(timeToSpawn)
+        if (timeToSpawn > 4) {
+            sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle,
+                    Vector2(Gdx.graphics.width/ 2f, Gdx.graphics.height.toFloat()), world))
+            timeToSpawn = 0f
+        }
+
         if (player.isAlive) {
             if (player.isHoldingCandle) {
                 Gdx.gl.glClearColor(0.25f, 0.25f, 0.8f, 1f)
