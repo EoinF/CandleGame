@@ -55,9 +55,10 @@ class CandleGame : ApplicationAdapter() {
                     numPlayerContacts++
                 }
 
-                if (isSheepColliding(contact)) {
+                if (isSheepColliding(contact) && player.invulnerabilityTimeout <= 0f) {
                     if (player.isHoldingCandle) {
                         player.isHoldingCandle = false
+                        player.invulnerabilityTimeout = 1f
                     } else {
                         player.isAlive = false
                     }
@@ -81,7 +82,6 @@ class CandleGame : ApplicationAdapter() {
     override fun render() {
         timeToSpawn += Gdx.graphics.deltaTime
 
-        println(timeToSpawn)
         if (timeToSpawn > 4) {
             sheeps.add(Sheep(textureManager.sheepWalk, textureManager.sheepWalkCandle,
                     Vector2(Gdx.graphics.width/ 2f, Gdx.graphics.height.toFloat()), world))

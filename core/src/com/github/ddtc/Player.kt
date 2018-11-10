@@ -2,6 +2,7 @@ package com.github.ddtc
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.Texture
@@ -13,6 +14,7 @@ import com.github.ddtc.CandleGame.Companion.PLAYER_FEET_ENTITY
 import com.github.ddtc.CandleGame.Companion.numPlayerContacts
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.Array
+import kotlin.math.PI
 
 
 class Player(
@@ -30,6 +32,8 @@ class Player(
     var walkingLightAnimation: Animation<TextureRegion>
     val playerHeight = 48f
     val playerWidth = 48f
+
+    var invulnerabilityTimeout = 0f
 
     private fun origin() = Vector2(position.x + playerWidth / 2, position.y + playerHeight / 2)
 
@@ -101,7 +105,13 @@ class Player(
         } else {
             currentFrame.flip(!isFacingRight, false)
         }
-        batch.draw(currentFrame, position.x, position.y)
+        if (invulnerabilityTimeout > 0f) {
+            batch.color = Color.RED.cpy().lerp(Color.WHITE, (Math.sin(invulnerabilityTimeout.toDouble() * 8) / PI).toFloat())
+            batch.draw(currentFrame, position.x, position.y)
+            batch.color = Color.WHITE
+        } else {
+            batch.draw(currentFrame, position.x, position.y)
+        }
     }
 
     fun update() {
@@ -127,5 +137,7 @@ class Player(
 
         position = Vector2((body.position.x * PIXELS_TO_METERS) - playerWidth / 2,
                 (body.position.y * PIXELS_TO_METERS) - playerHeight / 2)
+
+        invulnerabilityTimeout -= Gdx.graphics.deltaTime
     }
 }
